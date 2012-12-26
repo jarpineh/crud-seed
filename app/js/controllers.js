@@ -12,9 +12,8 @@ function MyCtrl2() {
 MyCtrl2.$inject = [];
 
 function Ctrl($scope, $routeParams) {
-	alert($routeParams);
 	var master = {
-    name: 'John Smith',
+    name: 'Smith',
     address:{
       line1: '123 Main St.',
       city:'Anytown',
@@ -25,6 +24,42 @@ function Ctrl($scope, $routeParams) {
       {type:'phone', value:'1(234) 555-1212'}
     ]
   };
-  $scope.form = master;
+  $scope.master = master;
+
+  $scope.state = /^\w\w$/;
+  $scope.zip = /^\d\d\d\d\d$/;
+  $scope.word = /^\w*$/;
+
+  $scope.cancel = function() {
+    $scope.form = angular.copy(master);
+  };
+
+  $scope.save = function() {
+    $scope.master = $scope.form;
+    $scope.cancel();
+  };
+
+  $scope.addContact = function() {
+    $scope.form.contacts.push({type:'', value:''});
+  };
+
+  $scope.removeContact = function(contact) {
+    var contacts = $scope.form.contacts;
+    for (var i = 0, ii = contacts.length; i < ii; i++) {
+      if (contact === contacts[i]) {
+        contacts.splice(i, 1);
+      }
+    }
+  };
+
+  $scope.isCancelDisabled = function() {
+    return angular.equals(master, $scope.form);
+  };
+
+  $scope.isSaveDisabled = function() {
+    return $scope.FForm.$invalid || angular.equals(master, $scope.form);
+  };
+
+  $scope.cancel();
 }
-Ctrl.$inject = ['$scope', '$routeParams']; //Where is this $inject documented and why it is needed?
+Ctrl.$inject = ['$scope', '$routeParams']; //Dependency injection apparently needs this, but in simple examples it can guess the values to inject
