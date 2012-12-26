@@ -11,7 +11,7 @@ function MyCtrl2() {
 }
 MyCtrl2.$inject = [];
 
-function Ctrl($scope, $routeParams) {
+function Ctrl($scope, $resource) {
 	var master = {
     name: 'Smith',
     address:{
@@ -36,6 +36,7 @@ function Ctrl($scope, $routeParams) {
 
   $scope.save = function() {
     $scope.master = $scope.form;
+    $scope.submit($scope.form);
     $scope.cancel();
   };
 
@@ -60,6 +61,16 @@ function Ctrl($scope, $routeParams) {
     return $scope.FForm.$invalid || angular.equals(master, $scope.form);
   };
 
+  $scope.submit = function(form) {
+  	var User = $resource('/data/:docid', {'@docid':'123'});
+	var newUser = User.get({docid:123}, function () {
+			alert(newUser);
+		});
+	alert(newUser);
+	newUser.form = form;
+	newUser.$save()
+  };
+
   $scope.cancel();
 }
-Ctrl.$inject = ['$scope', '$routeParams']; //Dependency injection apparently needs this, but in simple examples it can guess the values to inject
+Ctrl.$inject = ['$scope', '$resource']; //Dependency injection apparently needs this, but in simple examples it can guess the values to inject
