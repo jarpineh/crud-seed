@@ -31,7 +31,7 @@ function Ctrl($scope, $resource) {
   $scope.word = /^\w*$/;
 
   $scope.cancel = function() {
-    $scope.form = angular.copy(master);
+    $scope.form = angular.copy($scope.master);
   };
 
   $scope.save = function() {
@@ -62,11 +62,10 @@ function Ctrl($scope, $resource) {
   };
 
   $scope.submit = function(form) {
-  	var User = $resource('/data/:docid', {'@docid':'123'});
+  	var User = $resource('/data/:docid', {'docid':'123'});
 	var newUser = User.get({docid:123}, function () {
-			alert(newUser);
+			
 		});
-	alert(newUser);
 	newUser.form = form;
 	newUser.$save()
   };

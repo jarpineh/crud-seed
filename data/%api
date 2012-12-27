@@ -16,8 +16,10 @@ data = {
 if GET:
     resp = data
     req = dir()
-else:
-    resp = "jei"
+elif POST:
+    udata = json.loads(request.body.raw) #apparently Aspen does not recognize Angular's posted payload
+    open('data/%s.json' % path['api'], 'w').write(request.body.raw)
+    resp = POST
 
 ^L #!tornado text/html
 <pre>
