@@ -1,0 +1,31 @@
+import json
+
+data = {
+    'name': 'Smith',
+    'address':{
+      'line1': '123 Main St.',
+      'city':'Anytown',
+      'state':'AA',
+      'zip':'12345'
+    },
+    'contacts':[
+      {'type':'phone', 'value':'1(234) 555-1212'}
+    ]
+  }
+^L
+if GET:
+    resp = data
+    req = dir()
+else:
+    resp = "jei"
+
+^L #!tornado text/html
+<pre>
+{{ path['api'] }}
+{{ resp }}
+</pre>
+^L #!tornado text/plain
+{{ path['api'] }}
+{{ resp }}
+^L application/json
+{{ json.dumps(resp) }}
