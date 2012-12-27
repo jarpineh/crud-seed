@@ -25,6 +25,13 @@ function Ctrl($scope, $resource) {
     ]
   };
   $scope.master = master;
+  var User = $resource('/data/:docid', {'docid':'123'});
+  var newUser = User.get({docid:123}, function () {
+		$scope.newUser = newUser;
+		console.log(newUser);
+		$scope.master = newUser.form;
+		$scope.cancel();
+		});
 
   $scope.state = /^\w\w$/;
   $scope.zip = /^\d\d\d\d\d$/;
@@ -62,14 +69,9 @@ function Ctrl($scope, $resource) {
   };
 
   $scope.submit = function(form) {
-  	var User = $resource('/data/:docid', {'docid':'123'});
-	var newUser = User.get({docid:123}, function () {
-			
-		});
-	newUser.form = form;
-	newUser.$save()
+	$scope.newUser.form = form;
+	$scope.newUser.$save()
   };
 
-  $scope.cancel();
 }
 Ctrl.$inject = ['$scope', '$resource']; //Dependency injection apparently needs this, but in simple examples it can guess the values to inject

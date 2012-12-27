@@ -1,6 +1,7 @@
 import json
+import os.path
 
-data = {
+data = {'form': {
     'name': 'Smith',
     'address':{
       'line1': '123 Main St.',
@@ -11,15 +12,21 @@ data = {
     'contacts':[
       {'type':'phone', 'value':'1(234) 555-1212'}
     ]
+    }
   }
 ^L
 if GET:
-    resp = data
+    if os.path.exists('data/%s.json' % path['api']):
+        vdata = open('data/%s.json' % path['api']).read()
+        resp = json.loads(vdata)
+    else:
+        resp = data
     req = dir()
 elif POST:
     udata = json.loads(request.body.raw) #apparently Aspen does not recognize Angular's posted payload
+    print udata
     open('data/%s.json' % path['api'], 'w').write(request.body.raw)
-    resp = POST
+    resp = {'saved' : True}
 
 ^L #!tornado text/html
 <pre>
