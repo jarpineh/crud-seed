@@ -11,7 +11,7 @@ function MyCtrl2() {
 }
 MyCtrl2.$inject = [];
 
-function Ctrl($scope, $resource) {
+function Ctrl($scope, $resource, Server) {
 	var master = {
     name: 'Smith',
     address:{
@@ -25,8 +25,7 @@ function Ctrl($scope, $resource) {
     ]
   };
   $scope.master = master;
-  var User = $resource('/data/:docid', {'docid':'123'});
-  var newUser = User.get({docid:123}, function () {
+  var newUser = Server.get({docid:123}, function () {
 		$scope.newUser = newUser;
 		console.log(newUser);
 		$scope.master = newUser.form;
@@ -74,4 +73,4 @@ function Ctrl($scope, $resource) {
   };
 
 }
-Ctrl.$inject = ['$scope', '$resource']; //Dependency injection apparently needs this, but in simple examples it can guess the values to inject
+Ctrl.$inject = ['$scope', '$resource', 'Server']; //Dependency injection apparently needs this, but in simple examples it can guess the values to inject
